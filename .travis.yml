@@ -33,7 +33,8 @@ env:
 matrix:
   include:
     - compiler: gcc
-      env: TASK="test"
+      env: TASK="test-core"
+    - env: TASK="test-extended"
     - env: TASK="doc"
 addons:
   apt:

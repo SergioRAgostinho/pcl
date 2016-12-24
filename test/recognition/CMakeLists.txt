@@ -1,7 +1,7 @@
 set(SUBSYS_NAME tests_recognition)
 set(SUBSYS_DESC "Point cloud library recognition module unit tests")
 set(SUBSYS_DEPS global_tests recognition common io search kdtree octree features filters registration sample_consensus ml)
-set(OPT_DEPS) # module does not depend on these
+set(OPT_DEPS keypoints) # module does not depend on these
 
 set(DEFAULT ON)
 set(build TRUE)
@@ -14,8 +14,10 @@ if (build)
                  LINK_WITH pcl_gtest pcl_io pcl_features
                  ARGUMENTS "${PCL_SOURCE_DIR}/test/ism_train.pcd" "${PCL_SOURCE_DIR}/test/ism_test.pcd")
 
-  PCL_ADD_TEST(a_recognition_cg_test test_recognition_cg
-               FILES test_recognition_cg.cpp
-               LINK_WITH pcl_gtest pcl_common pcl_io pcl_kdtree pcl_features pcl_recognition pcl_keypoints
-               ARGUMENTS "${PCL_SOURCE_DIR}/test/milk.pcd" "${PCL_SOURCE_DIR}/test/milk_cartoon_all_small_clorox.pcd")
+  if (BUILD_keypoints)
+    PCL_ADD_TEST(a_recognition_cg_test test_recognition_cg
+                 FILES test_recognition_cg.cpp
+                 LINK_WITH pcl_gtest pcl_common pcl_io pcl_kdtree pcl_features pcl_recognition pcl_keypoints
+                 ARGUMENTS "${PCL_SOURCE_DIR}/test/milk.pcd" "${PCL_SOURCE_DIR}/test/milk_cartoon_all_small_clorox.pcd")
+	endif (BUILD_keypoints)
 endif (build)

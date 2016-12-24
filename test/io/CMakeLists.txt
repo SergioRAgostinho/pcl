@@ -1,7 +1,7 @@
 set(SUBSYS_NAME tests_io)
 set(SUBSYS_DESC "Point cloud library io module unit tests")
 set(SUBSYS_DEPS global_tests io common)
-set(OPT_DEPS visualization)
+set(OPT_DEPS)
 
 set(DEFAULT ON)
 set(build TRUE)
@@ -27,6 +27,7 @@ if (build)
                 ARGUMENTS "${PCL_SOURCE_DIR}/test/grabber_sequences")
   # Uses VTK readers to verify
   if (VTK_FOUND AND NOT ANDROID)
+    include_directories(${VTK_INCLUDE_DIRS})
     PCL_ADD_TEST (io_ply_mesh_io test_ply_mesh_io
                   FILES test_ply_mesh_io.cpp
                   LINK_WITH pcl_gtest pcl_io
