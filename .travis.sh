@@ -25,7 +25,18 @@ function build_clang ()
   mkdir $BUILD_DIR && cd $BUILD_DIR
   cmake -DCMAKE_C_FLAGS=$CMAKE_C_FLAGS -DCMAKE_CXX_FLAGS=$CMAKE_CXX_FLAGS \
         -DPCL_ONLY_CORE_POINT_TYPES=ON \
+        -DPCL_QT_VERSION=4 \
+        -DBUILD_simulation=ON \
         -DBUILD_global_tests=OFF \
+        -DBUILD_examples=ON \
+        -DBUILD_tools=ON \
+        -DBUILD_apps=ON \
+        -DBUILD_apps_3d_rec_framework=ON \
+        -DBUILD_apps_cloud_composer=ON \
+        -DBUILD_apps_in_hand_scanner=ON \
+        -DBUILD_apps_modeler=ON \
+        -DBUILD_apps_optronic_viewer=ON \
+        -DBUILD_apps_point_cloud_editor=ON \
         $PCL_DIR
   # Build
   make -j2

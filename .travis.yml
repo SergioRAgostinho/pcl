@@ -53,5 +53,8 @@ addons:
       - libvtk5-dev
       - libflann-dev
       - doxygen
+      - libqt4-dev
+      - libvtk5-qt4-dev
+      - libglew-dev
 script:
   - bash .travis.sh $TASK
