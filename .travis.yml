@@ -49,13 +49,9 @@ addons:
       - doxygen-latex
       - dvipng
       - libusb-1.0-0-dev
-cache:
-  directories:
-  - $HOME/flann
-  - $HOME/vtk
-  - $HOME/qhull
-  - $HOME/doxygen
-before_install:
-  - bash .travis.sh install
+      - libqhull-dev
+      - libvtk5-dev
+      - libflann-dev
+      - doxygen
 script:
   - bash .travis.sh $TASK
