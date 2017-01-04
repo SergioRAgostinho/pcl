@@ -229,7 +229,7 @@ function doc ()
     # Commit and push
     cd $DOC_DIR
     git add --all
-    git commit --amend -m "Documentation for commit $TRAVIS_COMMIT" -q
+    git commit --amend --reset-author -m "Documentation for commit $TRAVIS_COMMIT" -q
     git push --force
   else
     exit 2
