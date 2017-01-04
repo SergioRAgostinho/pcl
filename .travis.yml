@@ -34,8 +34,10 @@ matrix:
   include:
     - compiler: gcc
       env: TASK="test-core"
-    - env: TASK="test-extended"
-    - env: TASK="doc"
+    - compiler: gcc
+      env: TASK="test-extended"
+    - compiler: gcc
+      env: TASK="doc"
 addons:
   apt:
     sources:
