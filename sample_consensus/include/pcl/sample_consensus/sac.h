@@ -40,7 +40,6 @@
 
 #pragma once
 
-#include <pcl/sample_consensus/boost.h>
 #include <pcl/sample_consensus/sac_model.h>
 #include <ctime>
 #include <set>
@@ -56,10 +55,6 @@ namespace pcl
   {
     typedef typename SampleConsensusModel<T>::Ptr SampleConsensusModelPtr;
 
-    private:
-      /** \brief Constructor for base SAC. */
-      SampleConsensus () {};
-
     public:
       typedef boost::shared_ptr<SampleConsensus> Ptr;
       typedef boost::shared_ptr<const SampleConsensus> ConstPtr;
@@ -69,18 +64,8 @@ namespace pcl
         * \param[in] random if true set the random seed to the current time, else set to 12345 (default: false)
         */
       SampleConsensus (const SampleConsensusModelPtr &model, bool random = false) 
-        : sac_model_ (model)
-        , probability_ (0.99)
-        , iterations_ (0)
-        , threshold_ (std::numeric_limits<double>::max ())
-        , max_iterations_ (1000)
-        , rng_ (new boost::uniform_01<boost::mt19937> (rng_alg_))
+        : SampleConsensus(model, std::numeric_limits<double>::max (), random)
       {
-         // Create a random number generator object
-         if (random)
-           rng_->base ().seed (static_cast<unsigned> (std::time (nullptr)));
-         else
-           rng_->base ().seed (12345u);
       };
 
       /** \brief Constructor for base SAC.
@@ -96,13 +81,16 @@ namespace pcl
         , iterations_ (0)
         , threshold_ (threshold)
         , max_iterations_ (1000)
-        , rng_ (new boost::uniform_01<boost::mt19937> (rng_alg_))
+        , rng_dist_ (0.0f, 1.0f)
       {
          // Create a random number generator object
          if (random)
-           rng_->base ().seed (static_cast<unsigned> (std::time (nullptr)));
+         {
+           std::random_device rd;
+           rng_.seed (rd());
+         }
          else
-           rng_->base ().seed (12345u);
+           rng_.seed (12345u);
       };
 
       /** \brief Set the Sample Consensus model to use.
@@ -322,16 +310,16 @@ namespace pcl
       int max_iterations_;
 
       /** \brief Boost-based random number generator algorithm. */
-      boost::mt19937 rng_alg_;
+      std::mt19937 rng_;
 
       /** \brief Boost-based random number generator distribution. */
-      boost::shared_ptr<boost::uniform_01<boost::mt19937> > rng_;
+      std::uniform_real_distribution<> rng_dist_;
 
       /** \brief Boost-based random number generator. */
       inline double
       rnd ()
       {
-        return ((*rng_) ());
+        return (rng_dist_ (rng_));
       }
    };
 }
